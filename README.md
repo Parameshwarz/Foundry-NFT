@@ -28,7 +28,7 @@ Two ERC-721 contracts built with Foundry, each demonstrating one of the two stan
 
 `src/BasicNft.sol` is a deliberately minimal ERC-721 on OpenZeppelin v5. `mintNFT(tokenUri)` stores the URI string for the next token ID in a `uint256 => string` mapping and safe-mints to the caller. `tokenURI(tokenId)` returns the stored string verbatim.
 
-The image behind the URI is the Shiba Inu in `Img/shiba-inu.png`, hosted on IPFS — the standard "art on IPFS, pointer on-chain" approach. Cheap on gas, but the contract depends on the pinned content staying available.
+The image behind the URI is the Shiba Inu in `img/shiba-inu.png`, hosted on IPFS — the standard "art on IPFS, pointer on-chain" approach. Cheap on gas, but the contract depends on the pinned content staying available.
 
 ## MoodNft — 100% on-chain, dynamic
 
@@ -38,7 +38,7 @@ The image behind the URI is the Shiba Inu in `Img/shiba-inu.png`, hosted on IPFS
 - `tokenURI(tokenId)` assembles the JSON metadata **in the contract** — name, description, attributes, and the SVG for the token's current mood — and returns it base64-encoded behind a `data:application/json;base64,` prefix. Marketplaces render this directly; there is no external file to lose.
 - Each token has a mood (`HAPPY` by default). `flipMood(tokenId)` toggles it between the happy and sad SVG. Access is checked with OpenZeppelin's `_isAuthorized(owner, spender, tokenId)`, so only the owner or an approved operator can flip — anyone else gets `MoodNft__CantFlipMoodIfNotOwner`.
 
-The deploy script reads `Img/happy.svg` and `Img/sad.svg` from disk at deploy time and base64-encodes them into the constructor args (that's why `foundry.toml` enables `ffi`/`fs_permissions` for `./img`).
+The deploy script reads `img/happy.svg` and `img/sad.svg` from disk at deploy time and base64-encodes them into the constructor args (that's why `foundry.toml` enables `ffi`/`fs_permissions` for `./img`).
 
 ## Contract API
 
@@ -105,7 +105,7 @@ make anvil                    # terminal 1 — local node
 make deploy                   # deploy BasicNft
 make mint                     # mint to the most recently deployed BasicNft
 
-make deployMood               # deploy MoodNft (reads + encodes Img/*.svg)
+make deployMood               # deploy MoodNft (reads + encodes img/*.svg)
 make mintMoodNft              # mint a MoodNft
 make flipMoodNft              # flip the most recently minted token
 ```
@@ -121,7 +121,7 @@ The interaction scripts use `DevOpsTools.get_most_recent_deployment` from foundr
 ## Project structure
 
 ```
-Img/
+img/
   shiba-inu.png         # BasicNft artwork (hosted on IPFS)
   happy.svg, sad.svg    # MoodNft artwork (encoded on-chain at deploy)
   example.svg
